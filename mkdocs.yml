@@ -1,0 +1,19 @@
+extra:
+  author: komiyamma
+  author_alternate: こみやんま
+  author_sameas:
+    - https://x.com/komiyamma
+    - https://github.com/komiyamma
+  default_image: assets/images/default_ogp.png
+site_name: My MkDocs Site
+site_url: https://news.komiyamma.net
+theme:
+  name: material
+  custom_dir: overrides
+plugins:
+  - search:
+      lang:
+        - ja
+        - en
+  - description_from_memo
+  - awesome-pages
