@@ -2,6 +2,34 @@
 
 {% block extrahead %}
   {{ super() }}
+  {% if page and page.meta and page.meta.date %}
+    <style>
+      .page-meta-date {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+        color: var(--md-default-fg-color--light);
+        margin: 0 0 1.2rem;
+      }
+      .page-meta-date__label {
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        color: var(--md-accent-fg-color, var(--md-default-fg-color--lighter));
+      }
+      .page-meta-date time {
+        font-variant-numeric: tabular-nums;
+      }
+      @media (max-width: 599px) {
+        .page-meta-date {
+          justify-content: flex-start;
+        }
+      }
+    </style>
+  {% endif %}
   {# Define fallbacks for 404 page where 'page' object is not available #}
   {% set page_title = page.title if page else "Page Not Found" %}
   {% set page_description = (page.meta.description if page and page.meta) or config.site_description %}
@@ -80,6 +108,26 @@
           {% endif %}
         ]
       }
+    </script>
+  {% endif %}
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  {% if page and page.meta and page.meta.date %}
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var article = document.querySelector('.md-content__inner.md-typeset');
+        if (!article) {
+          return;
+        }
+        var heading = article.querySelector('h1');
+        var meta = article.querySelector('.page-meta-date[data-page-date]');
+        if (!heading || !meta) {
+          return;
+        }
+        heading.insertAdjacentElement('afterend', meta);
+      });
     </script>
   {% endif %}
 {% endblock %}
