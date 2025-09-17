@@ -4,6 +4,14 @@ __pycache__/
 *.pyo
 *.pyd
 
+# 仮想環境・パッケージ関連
+.env
+.venv
+venv/
+*.egg-info/
+build/
+dist/
+
 # MkDocs build
 site/
 
@@ -19,3 +27,9 @@ site/
 # OS
 .DS_Store
 Thumbs.db
+
+# Cloudflare
+.wrangler/
+
+# その他
+*.log
