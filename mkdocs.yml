@@ -5,7 +5,7 @@ extra:
     - https://x.com/komiyamma
     - https://github.com/komiyamma
   default_image: assets/images/default_ogp.png
-site_name: AIニュース  - komiyamma.net -
+site_name: AIニュース｜komiyamma.net
 site_description: AIに関するニュースをまとめています。
 site_url: https://ai-news.komiyamma.net
 theme:
