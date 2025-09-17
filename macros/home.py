@@ -1,11 +1,18 @@
 from __future__ import annotations
 
+from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Tuple
 
 import yaml
 from mkdocs.structure.nav import Navigation, Page
+
+CATEGORY_BASE_LABELS = {
+    "ai-generated-news": "生成AIニュース",
+    "ai-overview-news": "AI概況ニュース",
+    "tech": "テックノート",
+}
 
 
 def define_env(env):
@@ -40,7 +47,7 @@ def define_env(env):
         body_lines = lines[body_start:]
         return front_meta, body_lines
 
-    def extract_page_info(page: Page) -> Tuple[Optional[datetime], Optional[str], Optional[str]]:
+    def extract_page_info(page: Page) -> Tuple[Optional[datetime], str, str]:
         page_meta = getattr(page, "meta", {}) or {}
         front_meta, body_lines = load_source(page)
         raw_date = page_meta.get("date") or front_meta.get("date")
@@ -56,29 +63,75 @@ def define_env(env):
                     page_date = None
         else:
             page_date = None
-        title = page_meta.get("title") or front_meta.get("title") or page.title
+
+        title = page_meta.get("title") or front_meta.get("title") or ""
+        if not title:
+            auto_title = (page.title or "").strip()
+            stem = Path(page.file.src_path).stem.lower()
+            if auto_title and auto_title.lower() != stem:
+                title = auto_title
         if not title:
             for line in body_lines:
                 stripped = line.strip()
                 if stripped.startswith("#"):
                     title = stripped.lstrip("# ")
                     break
-        description = page_meta.get("description") or front_meta.get("description")
+        if not title:
+            title = Path(page.file.src_path).stem
+
+        description = page_meta.get("description") or front_meta.get("description") or ""
         if not description:
             src_path = getattr(page.file, "abs_src_path", None)
             if src_path:
                 memo_path = Path(src_path).with_suffix(".memo")
                 if memo_path.exists():
                     description = memo_path.read_text(encoding="utf-8").strip()
-        return page_date, title, description
+        return page_date, title.strip(), description.strip()
+
+    def resolve_category_label(page: Page, slug: str) -> str:
+        if page.ancestors:
+            nav_title = page.ancestors[0].title or ""
+            if nav_title and "\ufffd" not in nav_title:
+                return nav_title
+        parts = slug.split("-")
+        if len(parts) >= 5 and parts[-2].isdigit() and parts[-1].isdigit():
+            base = "-".join(parts[:-2])
+            year = parts[-2]
+            month = parts[-1]
+            base_label = CATEGORY_BASE_LABELS.get(base, base.replace("-", " ").title())
+            try:
+                month_value = int(month)
+                month_label = f"{month_value:02d}月"
+            except ValueError:
+                month_label = f"{month}月"
+            return f"{base_label} {year}年{month_label}"
+        return CATEGORY_BASE_LABELS.get(slug, slug.replace("-", " ").title())
 
     def iter_dated_pages(pages: Iterable[Page]):
         for page in pages:
-            page_info = extract_page_info(page)
-            page_date, title, description = page_info
+            page_date, title, description = extract_page_info(page)
             if page_date is None:
                 continue
             yield page_date, title, description, page
+
+    def collect_entries(navigation: Navigation):
+        entries = []
+        for page_date, title, description, page in iter_dated_pages(navigation.pages):
+            src_uri = getattr(page.file, "src_uri", "")
+            if not src_uri:
+                continue
+            category_slug = src_uri.split("/", 1)[0]
+            category_label = resolve_category_label(page, category_slug)
+            entries.append({
+                "date": page_date,
+                "title": title,
+                "description": description,
+                "url": src_uri,
+                "category_slug": category_slug,
+                "category_label": category_label,
+            })
+        entries.sort(key=lambda item: item["date"], reverse=True)
+        return entries
 
     @env.macro
     def latest_pages(limit: int = 5):
@@ -86,22 +139,64 @@ def define_env(env):
         if navigation is None:
             chatter("No navigation available yet")
             return ""
-        dated_pages = list(iter_dated_pages(navigation.pages))
-        chatter(f"Found {len(dated_pages)} dated pages")
-        dated_pages.sort(key=lambda item: item[0], reverse=True)
+        entries = collect_entries(navigation)
+        seen = set()
         rows = []
-        for page_date, title, description, page in dated_pages[:limit]:
-            if not title:
-                title = page.file.name
-            url = getattr(page.file, "src_uri", "") or page.url or page.canonical_url or ""
-            if url.endswith("index.html"):
-                url = url[:-10]
-            date_str = page_date.strftime("%Y-%m-%d")
-            row = f"- **{date_str}** | [{title}]({url})"
-            if description:
-                desc = " ".join(description.strip().split())
+        for entry in entries:
+            if entry["url"] in seen:
+                continue
+            seen.add(entry["url"])
+            line = f"- **{entry['date'].strftime('%Y-%m-%d')}** | [{entry['title']}]({entry['url']})"
+            if entry["description"]:
+                desc = " ".join(entry["description"].split())
                 if len(desc) > 120:
-                    desc = desc[:117] + "…"
-                row += f" — {desc}"
-            rows.append(row)
+                    desc = desc[:117].rstrip() + "..."
+                line += f" - {desc}"
+            rows.append(line)
+            if len(rows) >= limit:
+                break
         return "\n".join(rows)
+
+    @env.macro
+    def home_sections(per_category: int = 5, max_categories: Optional[int] = None):
+        navigation: Navigation | None = env.variables.get("navigation")
+        if navigation is None:
+            chatter("No navigation available yet")
+            return ""
+        entries = collect_entries(navigation)
+        categories: Dict[str, Dict[str, object]] = {}
+        for entry in entries:
+            slug = entry["category_slug"]
+            bucket = categories.setdefault(slug, {
+                "label": entry["category_label"],
+                "items": [],
+                "seen": set(),
+            })
+            seen_set = bucket["seen"]  # type: ignore[assignment]
+            items_list = bucket["items"]  # type: ignore[assignment]
+            if entry["url"] in seen_set:
+                continue
+            if len(items_list) >= per_category:
+                continue
+            items_list.append(entry)
+            seen_set.add(entry["url"])
+        ordered_categories = sorted(
+            (data for data in categories.values() if data["items"]),
+            key=lambda data: data["items"][0]["date"],
+            reverse=True,
+        )
+        if max_categories is not None:
+            ordered_categories = ordered_categories[:max_categories]
+        sections = []
+        for data in ordered_categories:
+            lines = [f"### {data['label']}", ""]
+            for item in data["items"]:
+                line = f"- **{item['date'].strftime('%Y-%m-%d')}** | [{item['title']}]({item['url']})"
+                if item["description"]:
+                    desc = " ".join(item["description"].split())
+                    if len(desc) > 120:
+                        desc = desc[:117].rstrip() + "..."
+                    line += f" - {desc}"
+                lines.append(line)
+            sections.append("\n".join(lines))
+        return "\n\n".join(sections)
