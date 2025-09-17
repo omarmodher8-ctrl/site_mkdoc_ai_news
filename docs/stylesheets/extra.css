@@ -1,4 +1,13 @@
 :root {
-  --md-content-width: 1300px;
-  --md-typeset-width: 1300px;
+  --md-typeset-width: 2400px;
+}
+
+@media screen and (min-width: 60rem) {
+  .md-grid {
+    max-width: 2400px;
+  }
+
+  .md-content {
+    max-width: 2400px;
+  }
 }
