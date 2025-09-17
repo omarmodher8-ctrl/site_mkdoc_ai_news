@@ -1,12 +1,12 @@
 extra:
   author: komiyamma
-  author_alternate: こみやんま
+  author_alternate: ���݂���
   author_sameas:
   - https://x.com/komiyamma
   - https://github.com/komiyamma
   default_image: assets/images/default_ogp.png
-site_name: AIニュース
-site_description: AIに関するニュースを毎週まとめています。
+site_name: AI�j���[�X
+site_description: AI�Ɋւ���j���[�X�𖈏T�܂Ƃ߂Ă��܂��B
 site_url: https://news.komiyamma.net
 theme:
   name: material
@@ -17,8 +17,10 @@ plugins:
     - ja
     - en
 - macros:
+    include_dir: macros
     modules:
     - macros.home
     verbose: false
 - description_from_memo
 - awesome-pages
+
