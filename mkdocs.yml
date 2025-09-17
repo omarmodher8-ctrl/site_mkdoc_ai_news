@@ -5,7 +5,8 @@ extra:
     - https://x.com/komiyamma
     - https://github.com/komiyamma
   default_image: assets/images/default_ogp.png
-site_name: My MkDocs Site
+site_name: AI News Overview
+site_description: AIに関するニュースを毎週まとめています。
 site_url: https://news.komiyamma.net
 theme:
   name: material
