@@ -23,3 +23,5 @@ plugins:
       verbose: false
   - description_from_memo
   - awesome-pages
+extra_css:
+  - stylesheets/extra.css
