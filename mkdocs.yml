@@ -7,7 +7,7 @@ extra:
   default_image: assets/images/default_ogp.png
 site_name: AIニュース  - komiyamma.net -
 site_description: AIに関するニュースをまとめています。
-site_url: https://news.komiyamma.net
+site_url: https://ai-news.komiyamma.net
 theme:
   name: material
   custom_dir: overrides
