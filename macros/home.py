@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Tuple
@@ -8,7 +7,7 @@ from typing import Dict, Iterable, List, Optional, Tuple
 import yaml
 from mkdocs.structure.nav import Navigation, Page
 
-CATEGORY_BASE_LABELS = {
+CATEGORY_BASE_LABELS: Dict[str, str] = {
     "ai-generated-news": "生成AIニュース",
     "ai-overview-news": "AI概況ニュース",
     "tech": "テックノート",
@@ -51,7 +50,6 @@ def define_env(env):
         page_meta = getattr(page, "meta", {}) or {}
         front_meta, body_lines = load_source(page)
         raw_date = page_meta.get("date") or front_meta.get("date")
-        page_date: Optional[datetime]
         if raw_date:
             if isinstance(raw_date, datetime):
                 page_date = raw_date
@@ -98,14 +96,14 @@ def define_env(env):
             base = "-".join(parts[:-2])
             year = parts[-2]
             month = parts[-1]
-            base_label = CATEGORY_BASE_LABELS.get(base, base.replace("-", " ").title())
+            base_label = CATEGORY_BASE_LABELS.get(base, base.replace("-", " " ).title())
             try:
                 month_value = int(month)
                 month_label = f"{month_value:02d}月"
             except ValueError:
                 month_label = f"{month}月"
             return f"{base_label} {year}年{month_label}"
-        return CATEGORY_BASE_LABELS.get(slug, slug.replace("-", " ").title())
+        return CATEGORY_BASE_LABELS.get(slug, slug.replace("-", " " ).title())
 
     def iter_dated_pages(pages: Iterable[Page]):
         for page in pages:
@@ -164,7 +162,7 @@ def define_env(env):
             chatter("No navigation available yet")
             return ""
         entries = collect_entries(navigation)
-        categories: Dict[str, Dict[str, object]] = {}
+        categories = {}
         for entry in entries:
             slug = entry["category_slug"]
             bucket = categories.setdefault(slug, {
@@ -172,14 +170,12 @@ def define_env(env):
                 "items": [],
                 "seen": set(),
             })
-            seen_set = bucket["seen"]  # type: ignore[assignment]
-            items_list = bucket["items"]  # type: ignore[assignment]
-            if entry["url"] in seen_set:
+            if entry["url"] in bucket["seen"]:
                 continue
-            if len(items_list) >= per_category:
+            if len(bucket["items"]) >= per_category:
                 continue
-            items_list.append(entry)
-            seen_set.add(entry["url"])
+            bucket["items"].append(entry)
+            bucket["seen"].add(entry["url"])
         ordered_categories = sorted(
             (data for data in categories.values() if data["items"]),
             key=lambda data: data["items"][0]["date"],
