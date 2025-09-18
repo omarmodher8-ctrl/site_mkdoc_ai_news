@@ -1,5 +1,5 @@
 model_reasoning_effort = "high"
-hide_agent_reasoning = true
+hide_agent_reasoning = false
 tools_web_search_request = true
 
 [assistant]
