@@ -8,3 +8,11 @@
 
 主にMKDocsをCloudFlare Pages + Functions用にさらに特化カスタムを実験的に行う場として利用する。
 
+
+## セットアップ
+
+```bash
+pip install -r requirements.txt
+pip install -e .
+```
+
