@@ -7,6 +7,7 @@ from typing import Dict, Iterable, List, Optional, Tuple
 import yaml
 from mkdocs.structure.nav import Navigation, Page
 
+# Fallback labels when navigation titles are unavailable
 CATEGORY_BASE_LABELS: Dict[str, str] = {
     "ai-generated-news": "生成AIニュース",
     "ai-overview-news": "AI概況ニュース",
