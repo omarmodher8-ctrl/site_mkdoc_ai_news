@@ -11,3 +11,23 @@
     max-width: 2400px;
   }
 }
+
+.md-header__title-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.md-header__title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.md-header__title-link:hover,
+.md-header__title-link:focus {
+  text-decoration: underline;
+}
+
+.md-header__title-separator {
+  color: inherit;
+}
