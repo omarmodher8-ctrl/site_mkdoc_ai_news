@@ -11,7 +11,6 @@ from mkdocs.structure.nav import Navigation, Page
 CATEGORY_BASE_LABELS: Dict[str, str] = {
     "ai-generated-news": "生成AIニュース",
     "ai-overview-news": "AI概況ニュース",
-    "tech": "テックノート",
 }
 
 
