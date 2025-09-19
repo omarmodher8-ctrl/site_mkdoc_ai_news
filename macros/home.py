@@ -7,12 +7,6 @@ from typing import Dict, Iterable, List, Optional, Tuple
 import yaml
 from mkdocs.structure.nav import Navigation, Page
 
-# Fallback labels when navigation titles are unavailable
-CATEGORY_BASE_LABELS: Dict[str, str] = {
-    "ai-generated-news": "生成AIニュース",
-    "ai-overview-news": "AI概況ニュース",
-}
-
 
 def define_env(env):
     chatter = env.start_chatting("latest-pages")
@@ -109,14 +103,14 @@ def define_env(env):
             base = "-".join(parts[:-2])
             year = parts[-2]
             month = parts[-1]
-            base_label = CATEGORY_BASE_LABELS.get(base, base.replace("-", " " ).title())
+            base_label = base
             try:
                 month_value = int(month)
                 month_label = f"{month_value:02d}月"
             except ValueError:
                 month_label = f"{month}月"
             return f"{base_label} {year}年{month_label}"
-        return CATEGORY_BASE_LABELS.get(slug, slug.replace("-", " " ).title())
+        return slug
 
     def iter_dated_pages(pages: Iterable[Page]):
         for page in pages:
