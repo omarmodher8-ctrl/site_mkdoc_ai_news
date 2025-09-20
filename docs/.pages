@@ -1,2 +1,14 @@
-order: desc
-order_by: filename
+arrange:
+  - index.md
+  - section: AI総合
+    children:
+      - path: 2025-09-ai-overview-news
+      - path: 2025-08-ai-overview-news
+  - section: 生成AI
+    children:
+      - path: 2025-09-ai-generated-news
+      - path: 2025-08-ai-generated-news
+      - path: 2025-07-ai-generated-news
+  - section: AIエディタ
+    children:
+      - path: 2025-ai-editor
