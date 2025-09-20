@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
-"""Generate docs/.pages based on subfolder metadata using nav entries.
+"""docs/.pages をサブフォルダのメタデータから自動生成する補助スクリプト。
 
-This utility scans each category folder under docs/, reads its .pages title,
-and groups folders by the part before the Japanese divider "｜". The order of
-categories is detected automatically: the existing docs/.pages navigation order
-is reused when possible, otherwise categories follow discovery order based on
-folder names.
+- 各サブフォルダの .pages から `title: カテゴリ｜年月` を読み取り、カテゴリ毎にフォルダをグルーピング
+- 既存の docs/.pages が持つカテゴリ順を尊重しつつ、新規カテゴリは自動追加
+- 生成した nav 構造を Python リストで返したり、ファイルに書き出したりできる
 """
 from __future__ import annotations
 
@@ -13,9 +11,11 @@ import argparse
 from pathlib import Path
 from typing import Dict, List, Tuple
 
+CATEGORY_EXCLUDE = {"assets", "stylesheets"}
+
 
 def extract_category_from_pages(pages_path: Path) -> str | None:
-    """Return the category name extracted from a .pages file."""
+    """`.pages` のタイトル行からカテゴリ名を抽出する。"""
     try:
         for raw_line in pages_path.read_text(encoding="utf-8").splitlines():
             line = raw_line.lstrip("\ufeff").strip()
@@ -32,37 +32,36 @@ def extract_category_from_pages(pages_path: Path) -> str | None:
 
 
 def collect_category_mapping(docs_dir: Path) -> Tuple[Dict[str, List[str]], List[str]]:
-    """Build a dictionary mapping category names to folder paths and track order."""
+    """カテゴリ -> フォルダ一覧、および検出順を返す。"""
     mapping: Dict[str, List[str]] = {}
-    category_order: List[str] = []
+    discovered_order: List[str] = []
 
     for child in sorted(docs_dir.iterdir(), key=lambda p: p.name):
         if not child.is_dir():
             continue
         if child.name.startswith('.'):
             continue
-        if child.name in {"assets", "stylesheets"}:
+        if child.name in CATEGORY_EXCLUDE:
             continue
 
-        pages_file = child / ".pages"
-        category = extract_category_from_pages(pages_file)
+        category = extract_category_from_pages(child / ".pages")
         if not category:
             continue
 
         if category not in mapping:
             mapping[category] = []
-            category_order.append(category)
+            discovered_order.append(category)
 
         mapping[category].append(child.name.replace('\\', '/'))
 
     for paths in mapping.values():
         paths.sort(reverse=True)
 
-    return mapping, category_order
+    return mapping, discovered_order
 
 
 def read_existing_category_order(root_pages_path: Path) -> List[str]:
-    """Extract the current top-level section order from docs/.pages nav structure."""
+    """既存 docs/.pages の nav からカテゴリ順を抽出する。"""
     if not root_pages_path.is_file():
         return []
 
@@ -72,8 +71,6 @@ def read_existing_category_order(root_pages_path: Path) -> List[str]:
         if not line.startswith("- "):
             continue
         entry = line[2:]
-        if entry == "index.md":
-            continue
         if entry.endswith(":"):
             name = entry[:-1].strip()
             if name:
@@ -81,42 +78,76 @@ def read_existing_category_order(root_pages_path: Path) -> List[str]:
     return order
 
 
-def build_root_pages_content(mapping: Dict[str, List[str]], ordered_categories: List[str]) -> str:
-    """Create the YAML content for docs/.pages nav."""
-    lines: List[str] = ["nav:", "  - index.md"]
+def build_order(mapping: Dict[str, List[str]], discovered_order: List[str], existing_order: List[str]) -> List[str]:
+    ordered: List[str] = [cat for cat in existing_order if cat in mapping]
+    for cat in discovered_order:
+        if cat not in ordered:
+            ordered.append(cat)
+    return ordered
+
+
+def build_nav_structure(mapping: Dict[str, List[str]], ordered_categories: List[str], include_index: bool = True) -> List[object]:
+    nav: List[object] = []
+    if include_index:
+        nav.append("index.md")
 
     for category in ordered_categories:
         paths = mapping.get(category)
         if not paths:
             continue
-        lines.append(f"  - {category}:")
-        for path in paths:
-            lines.append(f"      - path: {path}")
+        children = [{"path": path} for path in paths]
+        nav.append({category: children})
 
+    return nav
+
+
+def format_nav_as_pages(nav: List[object]) -> str:
+    """MkDocs Awesome Pages 用の nav YAML テキストに整形する。"""
+    lines: List[str] = ["nav:"]
+    for entry in nav:
+        if isinstance(entry, str):
+            lines.append(f"  - {entry}")
+            continue
+        if isinstance(entry, dict):
+            for category, children in entry.items():
+                lines.append(f"  - {category}:")
+                for child in children:
+                    lines.append(f"      - path: {child['path']}")
     return "\n".join(lines) + "\n"
 
 
+def generate_navigation(docs_dir: Path) -> List[object]:
+    mapping, discovered_order = collect_category_mapping(docs_dir)
+    existing_order = read_existing_category_order(docs_dir / ".pages")
+    ordered_categories = build_order(mapping, discovered_order, existing_order)
+    return build_nav_structure(mapping, ordered_categories)
+
+
+def write_root_pages(docs_dir: Path, nav: List[object]) -> Path:
+    content = format_nav_as_pages(nav)
+    root_pages_path = docs_dir / ".pages"
+    root_pages_path.write_text(content, encoding="utf-8")
+    return root_pages_path
+
+
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Generate docs/.pages from subfolders")
+    parser = argparse.ArgumentParser(description="Generate root .pages nav from subfolders")
     parser.add_argument("docs_dir", nargs="?", default="docs", help="MkDocs docs directory")
+    parser.add_argument("--print", action="store_true", help="Print nav structure instead of writing file")
     args = parser.parse_args()
 
     docs_dir = Path(args.docs_dir).resolve()
     if not docs_dir.is_dir():
         raise SystemExit(f"Docs directory not found: {docs_dir}")
 
-    mapping, discovered_order = collect_category_mapping(docs_dir)
-    root_pages_path = docs_dir / ".pages"
-    existing_order = read_existing_category_order(root_pages_path)
+    nav = generate_navigation(docs_dir)
 
-    ordered_categories = [cat for cat in existing_order if cat in mapping]
-    for cat in discovered_order:
-        if cat not in ordered_categories:
-            ordered_categories.append(cat)
+    if args.print:
+        print(nav)
+        return
 
-    content = build_root_pages_content(mapping, ordered_categories)
-    root_pages_path.write_text(content, encoding="utf-8")
-    print(f"Updated {root_pages_path} with {len(mapping)} categories.")
+    path = write_root_pages(docs_dir, nav)
+    print(f"Updated {path} with {len(nav) - 1} categories.")
 
 
 if __name__ == "__main__":
