@@ -45,7 +45,7 @@
 }
 
 .md-typeset h1 {
-  font-size: clamp(2.4rem, 2vw + 1.8rem, 3rem);
+  font-size: clamp(2.1rem, 1.6vw + 1.5rem, 2.6rem);
   border-left: 0.6rem solid var(--md-primary-fg-color);
   padding-left: 1.5rem;
   padding-bottom: 1rem;
@@ -64,7 +64,7 @@
 }
 
 .md-typeset h2 {
-  font-size: clamp(1.9rem, 1.5vw + 1.4rem, 2.4rem);
+  font-size: clamp(1.75rem, 1.3vw + 1.25rem, 2.2rem);
   border-left: 0.45rem solid var(--md-primary-fg-color);
   padding-left: 1.25rem;
   padding-bottom: 0.8rem;
@@ -119,4 +119,5 @@
   background: linear-gradient(90deg, var(--md-accent-fg-color), rgba(0, 0, 0, 0));
   border-radius: 999px;
 }
+
 
