@@ -1,18 +1,18 @@
 import sys
 
-def count_characters(text):
-    count = 0
+def calculate_length(text):
+    length = 0
     for char in text:
-        if '!' <= char <= '~' or ' ' == char:  # ASCII characters (printable + space)
-            count += 0.5
-        else:  # Non-ASCII characters (including full-width, Japanese, etc.)
-            count += 1
-    return count
+        if ord(char) < 128:  # ASCII characters
+            length += 0.5
+        else:  # Non-ASCII characters (including full-width Japanese characters)
+            length += 1
+    return length
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         input_text = sys.argv[1]
-        length = count_characters(input_text)
-        print(length)
+        calculated_len = calculate_length(input_text)
+        print(calculated_len)
     else:
-        print("Please provide a string to count.")
+        print("Please provide a string as an argument.")
