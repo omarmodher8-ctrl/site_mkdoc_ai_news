@@ -1,6 +1,4 @@
-
-
-# site_mkdoc_ai_news
+# ai-news.komiyamma.net
 
 [![GitHub release](https://img.shields.io/github/v/release/komiyamma/site_mkdoc_ai_news)](https://github.com/komiyamma/site_mkdoc_ai_news/releases)
 
