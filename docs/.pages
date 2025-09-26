@@ -1,2 +1,17 @@
 nav:
   - index.md
+  - 生成AI:
+      - path: 2025-09-ai-generated-news
+      - path: 2025-08-ai-generated-news
+      - path: 2025-07-ai-generated-news
+  - AI総合:
+      - path: 2025-09-ai-overview-news
+      - path: 2025-08-ai-overview-news
+  - Adobe Firefly:
+      - path: 2025-09-adobe-firefly-news
+  - Nano Banana:
+      - path: 2025-09-google-nano-banana-news
+  - Veo:
+      - path: 2025-09-google-veo-news
+  - AIエディタ－:
+      - path: 2025-ai-editor
