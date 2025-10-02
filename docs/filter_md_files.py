@@ -1,28 +1,28 @@
-import sys
+
 import os
+import sys
 
-def filter_md_files(md_files_path, memo_files_path):
-    with open(md_files_path, 'r') as f:
-        md_files = f.read().splitlines()
-    with open(memo_files_path, 'r') as f:
-        memo_files = f.read().splitlines()
-
-    to_process = []
-    for md_file in md_files:
-        if not md_file.strip():
-            continue
-        
-        # Skip index.md and my_command.md
-        if "index.md" in md_file or "my_command.md" in md_file:
-            continue
-
-        memo_file = md_file.replace(".md", ".memo")
-        if memo_file not in memo_files:
-            to_process.append(md_file)
-    return "\n".join(to_process)
+def filter_md_files(base_dir):
+    """
+    Finds all .md files in base_dir and its subdirectories that do not have a corresponding .memo file.
+    Returns a list of absolute paths to these .md files.
+    """
+    target_md_files = []
+    for root, _, files in os.walk(base_dir):
+        for file in files:
+            if file.endswith(".md"):
+                md_path = os.path.join(root, file)
+                memo_path = os.path.join(root, file.replace(".md", ".memo"))
+                if not os.path.exists(memo_path):
+                    target_md_files.append(md_path)
+    return target_md_files
 
 if __name__ == "__main__":
-    md_files_path = sys.argv[1]
-    memo_files_path = sys.argv[2]
-    result = filter_md_files(md_files_path, memo_files_path)
-    print(result)
+    if len(sys.argv) < 2:
+        print("Usage: python filter_md_files.py <base_directory>")
+        sys.exit(1)
+
+    base_directory = sys.argv[1]
+    files_to_process = filter_md_files(base_directory)
+    for f in files_to_process:
+        print(f)

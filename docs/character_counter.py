@@ -1,18 +1,19 @@
 import sys
 
 def count_characters(text):
-    length = 0
+    count = 0
     for char in text:
-        if ord(char) < 128:  # ASCII characters
-            length += 0.5
-        else:  # Non-ASCII characters (including full-width)
-            length += 1
-    return length
+        # Check if the character is ASCII (0-127)
+        if ord(char) < 128:
+            count += 0.5
+        else:
+            count += 1
+    return count
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
-        input_text = sys.argv[1]
-        calculated_length = count_characters(input_text)
-        print(calculated_length)
+        memo_content = sys.argv[1]
+        length = count_characters(memo_content)
+        print(length)
     else:
-        print("Usage: python character_counter.py <text>")
+        print("Usage: python character_counter.py <memo_content>")
