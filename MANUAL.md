@@ -89,9 +89,18 @@ arrange:
 - `mkdocs_serve.ps1` を利用すると仮想環境の有効化と `mkdocs serve` の起動をまとめて実行できます。
 - `mkdocs_restart.ps1` は既存の `mkdocs serve` プロセスを停止し、指定したポートで再起動します。
 
-### デプロイ
-このサイトは Cloudflare Pages にデプロイされます。デプロイに関する詳細な設定や手順については、以下のドキュメントを参照してください。
+### デプロイ手順
+このワーキングスペースで記事を更新した際に行う最低限の手順です。
 
-- **[Cloudflare Pages デプロイガイド (CLOUDFLARE_PAGES_DEPLOY.md)](CLOUDFLARE_PAGES_DEPLOY.md)**
+1. ローカル表示確認が必要な場合は、以下のスクリプトだけ実行します（仮想環境の有効化まで自動で行われます）。
+   ```powershell
+   PS> .\mkdocs_serve.ps1
+   ```
+
+2. 変更内容を確認したら、コミットとプッシュを行います（`git add` / `git commit` / `git push`。GUI ツールでも可）。
+
+3. GitHub へ push すると Cloudflare Pages が自動的にビルド・デプロイを行います。結果は Cloudflare Pages のダッシュボードで確認してください。
+
+4. `mkdocs serve` を終了した際には自動的に仮想環境も解除されますが、必要に応じて `deactivate` を実行しても構いません。
 
 以上の手順に従って記事を追加・更新することで、デプロイ時にも整合性の取れたサイトを維持できます。
