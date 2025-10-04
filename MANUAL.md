@@ -64,25 +64,43 @@ title: 生成AIニュース 2025年05月
 arrange:
   - cleaning_tips.md
   - goal_setting.md
-  - study_tips.md
-  - time_management.md
 ```
 
-```yaml
-# 非公開にしたい場合の例
-arrange:
-  - draft_article.md:
-      hide: true
-```
+## 高度なカスタマイズと自動化
+
+### ルートナビゲーションの自動生成
+当サイトでは、トップレベルのナビゲーション（`docs/.pages`）を**自動生成**しています。これにより、手動でのナビゲーション編集ミスを防ぎ、記事の追加・整理を容易にしています。
+
+- **トリガー**: `mkdocs serve` や `mkdocs build` を実行すると、`hooks.py` が作動します。
+- **処理内容**: `update_root_pages.py` スクリプトが、各サブディレクトリ（`docs/ai-generated-news-2025-05`など）の `.pages` ファイルから `title` を読み取ります。
+- **グルーピング**: `title` に含まれるカテゴリ名（`｜` の前部分）を元に、同じカテゴリの記事群をまとめてナビゲーションを再構築します。
+
+この仕組みにより、開発者は記事のカテゴリディレクトリ内での作業に集中できます。
 
 ## トップページへの反映ルール
 - `macros/home.py` の `home_sections` マクロが、`date` と `.memo` の内容を元にカテゴリ別の最新記事を生成します。
 - `date` がないページは一覧から除外されます。
 - `.memo` の先頭 1 行が概要として表示されます。
 
-## ローカル開発のポイント
+## ローカル開発とデプロイ
+
+### 開発のポイント
 - PowerShell で `.\.venv\Scripts\Activate.ps1` を実行して仮想環境を有効化します。
 - `mkdocs_serve.ps1` を利用すると仮想環境の有効化と `mkdocs serve` の起動をまとめて実行できます。
 - `mkdocs_restart.ps1` は既存の `mkdocs serve` プロセスを停止し、指定したポートで再起動します。
 
-以上の手順に従って記事を追加・更新することで、Cloudflare Pages へのデプロイ時にも整合性の取れたサイトを維持できます。
+### デプロイ手順
+このワーキングスペースで記事を更新した際に行う最低限の手順です。
+
+1. ローカル表示確認が必要な場合は、以下のスクリプトだけ実行します（仮想環境の有効化まで自動で行われます）。
+   ```powershell
+   PS> .\mkdocs_serve.ps1
+   ```
+
+2. 変更内容を確認したら、コミットとプッシュを行います（`git add` / `git commit` / `git push`。GUI ツールでも可）。
+
+3. GitHub へ push すると Cloudflare Pages が自動的にビルド・デプロイを行います。結果は Cloudflare Pages のダッシュボードで確認してください。
+
+4. `mkdocs serve` を終了した際には自動的に仮想環境も解除されますが、必要に応じて `deactivate` を実行しても構いません。
+
+以上の手順に従って記事を追加・更新することで、デプロイ時にも整合性の取れたサイトを維持できます。
