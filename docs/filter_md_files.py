@@ -2,11 +2,12 @@
 import os
 import sys
 
-def filter_md_files(base_dir):
+def filter_md_files():
     """
-    Finds all .md files in base_dir and its subdirectories that do not have a corresponding .memo file.
+    Finds all .md files in the current working directory and its subdirectories that do not have a corresponding .memo file.
     Returns a list of absolute paths to these .md files.
     """
+    base_dir = os.getcwd()
     target_md_files = []
     for root, _, files in os.walk(base_dir):
         for file in files:
@@ -18,9 +19,8 @@ def filter_md_files(base_dir):
     return target_md_files
 
 if __name__ == "__main__":
-    base_directory = os.getcwd()
-    output_file = os.path.join(base_directory, "filtered_md_files.txt")
-    files_to_process = filter_md_files(base_directory)
+    output_file = os.path.join(os.getcwd(), "filtered_md_files.txt")
+    files_to_process = filter_md_files()
     with open(output_file, "w", encoding="utf-8") as f:
         for md_file in files_to_process:
             f.write(md_file + "\n")
