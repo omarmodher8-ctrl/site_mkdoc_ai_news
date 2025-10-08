@@ -1,1 +1,1 @@
-Google Gemini 2.5 Computer Useモデル、Anthropic Claude Sonnet 4.5、OpenAI DevDay 2025でのChatGPTアプリ・AgentKit・Sora 2・GPT-5 Pro発表、IBMとAnthropicの戦略的提携、xAIの200億ドル資金調達など、2025年10月8日のAI業界の主要な新技術、研究、ビジネス動向を詳細に網羅しています。
+GoogleのAI画像生成・編集モデル「Nano Banana」は、テキストから高品質画像を生成し、既存画像を部分的に編集する機能を提供。Xではキャラクターの一貫性維持やピンポイント編集の活用事例が活発に議論され、GitHubではプロンプトやAIモデル活用のリポジトリが多数見られる。Google LensやCircle to Searchへの拡張も期待され、ビジネスやクリエイティブ作業での活用が広がる。
