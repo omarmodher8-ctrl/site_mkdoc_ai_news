@@ -1,1 +1,1 @@
-GoogleのAI画像生成・編集モデル「Nano Banana」は、テキストから高品質画像を生成し、既存画像を部分的に編集する機能を提供。Xではキャラクターの一貫性維持やピンポイント編集の活用事例が活発に議論され、GitHubではプロンプトやAIモデル活用のリポジトリが多数見られる。Google LensやCircle to Searchへの拡張も期待され、ビジネスやクリエイティブ作業での活用が広がる。
+主要AIモデル（GPT-5 Pro, Claude-4.5-Sonnet, Gemini 2.5 Pro）が進化。Microsoft Copilot、GitHub Agent HQ、Grok、Perplexityも新機能発表。AIエディタやAIブラウザも登場し、AI業界全体で機能強化と競争が加速。
