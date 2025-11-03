@@ -12,8 +12,15 @@ def count_characters(text):
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
-        memo_content = sys.argv[1]
-        length = count_characters(memo_content)
-        print(length)
+        file_path = sys.argv[1]
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                memo_content = f.read()
+            length = count_characters(memo_content)
+            print(length)
+        except FileNotFoundError:
+            print(f"Error: File not found at {file_path}")
+        except Exception as e:
+            print(f"An error occurred: {e}")
     else:
-        print("Usage: python character_counter.py <memo_content>")
+        print("Usage: python character_counter.py <file_path>")

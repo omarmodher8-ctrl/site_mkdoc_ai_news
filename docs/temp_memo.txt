@@ -1,1 +1,1 @@
-Google Nano Banana (Gemini 2.5 Flash Image)は、画像生成・編集に特化したAIツール。Xではファンアートやアニメ制作、日常編集での活用例が共有され、GitHubではプロンプト集が公開されている。キャラクターの一貫性や詳細な調整が強みで、AIの急速な進化と幅広い応用が評価されている。
+OpenAI訴訟、MS GitHub新機能、Google AI更新、Anthropic CEO発言、ChatGPT医療応用、主要AIモデルのアップデートと新機能、AI研究、オープンソースプロジェクト、プラットフォーム更新など、AI業界の最新動向を概観。
