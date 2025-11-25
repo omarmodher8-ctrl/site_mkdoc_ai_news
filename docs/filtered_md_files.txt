@@ -1,14 +1,3 @@
-G:\repogitory\site_mkdoc_ai_news\docs\2025-adobe-firefly\2025-11-23.md
-G:\repogitory\site_mkdoc_ai_news\docs\2025-ai-editor\2025-11-23.md
-G:\repogitory\site_mkdoc_ai_news\docs\2025-ai-generated\2025-11-20.md
-G:\repogitory\site_mkdoc_ai_news\docs\2025-ai-generated\2025-11-21.md
-G:\repogitory\site_mkdoc_ai_news\docs\2025-ai-generated\2025-11-22.md
-G:\repogitory\site_mkdoc_ai_news\docs\2025-ai-generated\2025-11-23.md
-G:\repogitory\site_mkdoc_ai_news\docs\2025-ai-generated\2025-11-24.md
-G:\repogitory\site_mkdoc_ai_news\docs\2025-ai-generated\2025-11-25.md
-G:\repogitory\site_mkdoc_ai_news\docs\2025-ai-mcp\2025-11-23.md
-G:\repogitory\site_mkdoc_ai_news\docs\2025-ai-overview\2025-11-20.md
-G:\repogitory\site_mkdoc_ai_news\docs\2025-ai-overview\2025-11-21.md
 G:\repogitory\site_mkdoc_ai_news\docs\2025-ai-overview\2025-11-22.md
 G:\repogitory\site_mkdoc_ai_news\docs\2025-ai-overview\2025-11-23.md
 G:\repogitory\site_mkdoc_ai_news\docs\2025-ai-overview\2025-11-24.md
