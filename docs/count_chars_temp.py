@@ -1,16 +1,14 @@
+import sys
 
-def count_characters(text):
+def count_chars(text):
     count = 0
     for char in text:
-        if ord(char) < 128:  # ASCII characters
+        if ord(char) < 128:  # ASCII
             count += 0.5
-        else:  # Non-ASCII characters (including full-width Japanese characters)
+        else:
             count += 1
     return count
 
-with open(r"G:\repogitory\site_mkdoc_ai_news\docs\temp_memo.txt", "r", encoding="utf-8") as f:
-    content = f.read()
-
-length = count_characters(content)
-print(length)
-
+text = "Google Veo3を活用した動画生成が活発化し、広告自動化やXでの作品共有が相次ぐ。プロンプトの工夫や品質に関する議論もなされ、ツール連携が進んでいる。"
+print(f"Text: {text}")
+print(f"Length: {count_chars(text)}")

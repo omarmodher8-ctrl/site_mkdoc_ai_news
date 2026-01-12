@@ -1,9 +1,4 @@
-G:\repogitory\site_mkdoc_ai_news\docs\2025-adobe-firefly\2026-01-11.md
-G:\repogitory\site_mkdoc_ai_news\docs\2025-ai-editor\2026-01-11.md
-G:\repogitory\site_mkdoc_ai_news\docs\2025-ai-generated\2026-01-11.md
-G:\repogitory\site_mkdoc_ai_news\docs\2025-ai-mcp\2026-01-11.md
-G:\repogitory\site_mkdoc_ai_news\docs\2025-ai-overview\2026-01-11.md
-G:\repogitory\site_mkdoc_ai_news\docs\2025-ai-suno\2026-01-11.md
-G:\repogitory\site_mkdoc_ai_news\docs\2025-google-nano-banana\2026-01-11.md
-G:\repogitory\site_mkdoc_ai_news\docs\2025-google-veo\2026-01-11.md
-G:\repogitory\site_mkdoc_ai_news\docs\2025-openai-sora\2026-01-11.md
+G:\repogitory\site_mkdoc_ai_news\docs\2025-ai-generated\2026-01-12.md
+G:\repogitory\site_mkdoc_ai_news\docs\2025-ai-overview\2026-01-12.md
+G:\repogitory\site_mkdoc_ai_news\docs\2025-google-nano-banana\2026-01-12.md
+G:\repogitory\site_mkdoc_ai_news\docs\2025-google-veo\2026-01-12.md
