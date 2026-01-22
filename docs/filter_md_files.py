@@ -10,6 +10,9 @@ def filter_md_files():
     base_dir = os.getcwd()
     target_md_files = []
     for root, _, files in os.walk(base_dir):
+        # Exclude .venv directory
+        if '.venv' in root:
+            continue
         for file in files:
             if file.endswith(".md"):
                 md_path = os.path.join(root, file)
