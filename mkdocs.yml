@@ -13,6 +13,10 @@ extra:
 site_name: AIニュース｜komiyamma.net
 site_description: AIに関するニュースをまとめています。
 site_url: https://ai-news.komiyamma.net
+markdown_extensions:
+  - mdx_truly_sane_lists:
+      nested_indent: 3
+      truly_sane: true
 theme:
   name: material
   custom_dir: overrides
