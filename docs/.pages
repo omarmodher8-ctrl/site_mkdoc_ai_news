@@ -1,33 +1,35 @@
 nav:
   - index.md
-  - Adobe Firefly:
-      - path: 2026-adobe-firefly
-      - path: 2025-adobe-firefly
-  - AIエディタ－:
-      - path: 2026-ai-editor
-      - path: 2025-ai-editor
-  - 生成AI:
-      - path: 2026-ai-generated
-      - path: 2025-ai-generated
-  - MCP:
-      - path: 2026-ai-mcp
-      - path: 2025-ai-mcp
   - AI総合:
       - path: 2026-ai-overview
       - path: 2025-ai-overview
-  - Suno:
-      - path: 2026-ai-suno
-      - path: 2025-ai-suno
+  - 生成AI:
+      - path: 2026-ai-generated
+      - path: 2025-ai-generated
+  - AI Youtube:
+      - path: 2026-ai-youtube
+  - AIエディタ－:
+      - path: 2026-ai-editor
+      - path: 2025-ai-editor
+  - AI Skills:
+      - path: 2026-ai-skills
+  - MCP:
+      - path: 2026-ai-mcp
+      - path: 2025-ai-mcp
   - Nano Banana:
       - path: 2026-google-nano-banana
       - path: 2025-google-nano-banana
+  - Adobe Firefly:
+      - path: 2026-adobe-firefly
+      - path: 2025-adobe-firefly
   - Veo:
       - path: 2026-google-veo
       - path: 2025-google-veo
   - Sora:
       - path: 2026-openai-sora
       - path: 2025-openai-sora
-  - AI Skills:
-      - path: 2026-ai-skills
   - WAN:
       - path: 2026-ai-wan
+  - Suno:
+      - path: 2026-ai-suno
+      - path: 2025-ai-suno
