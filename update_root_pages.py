@@ -112,7 +112,7 @@ def format_nav_as_pages(nav: List[object]) -> str:
             for category, children in entry.items():
                 lines.append(f"  - {category}:")
                 for child in children:
-                    lines.append(f"      - path: {child['path']}")
+                    lines.append(f"      - {child['path']}")
     return "\n".join(lines) + "\n"
 
 
