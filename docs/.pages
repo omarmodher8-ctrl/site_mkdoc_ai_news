@@ -25,11 +25,10 @@ nav:
   - Veo:
       - path: 2026-google-veo
       - path: 2025-google-veo
-  - Sora:
-      - path: 2026-openai-sora
-      - path: 2025-openai-sora
   - WAN:
       - path: 2026-ai-wan
   - Suno:
       - path: 2026-ai-suno
       - path: 2025-ai-suno
+  - NVidia:
+      - path: 2026-nvidia
