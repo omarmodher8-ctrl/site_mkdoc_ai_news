@@ -8,7 +8,7 @@ nav:
       - path: 2025-ai-generated
   - AI Youtube:
       - path: 2026-ai-youtube
-  - AIエディタ－:
+  - AI エディタ－:
       - path: 2026-ai-editor
       - path: 2025-ai-editor
   - AI Skills:
@@ -25,8 +25,8 @@ nav:
   - Veo:
       - path: 2026-google-veo
       - path: 2025-google-veo
-  - WAN:
-      - path: 2026-ai-wan
+  - AI 動画生成:
+      - path: 2026-ai-video
   - Suno:
       - path: 2026-ai-suno
       - path: 2025-ai-suno
