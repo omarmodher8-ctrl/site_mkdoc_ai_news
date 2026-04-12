@@ -1,6 +1,6 @@
 nav:
   - index.md
-  - AI総合:
+  - AI 総合:
       - path: 2026-ai-overview
       - path: 2025-ai-overview
   - 生成AI:
