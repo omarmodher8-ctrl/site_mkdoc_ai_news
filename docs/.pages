@@ -11,6 +11,8 @@ nav:
   - AI エディタ－:
       - path: 2026-ai-editor
       - path: 2025-ai-editor
+  - AI Agent:
+      - path: 2026-ai-agent
   - AI Skills:
       - path: 2026-ai-skills
   - MCP:
